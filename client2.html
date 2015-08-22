@@ -1,0 +1,34 @@
+<!DOCTYPE html >
+<html><head>
+   <script src="https://qms.iulysses.com/static/js/libs/socket.io-0.9.6.min.js"></script>
+   <script src="https://code.jquery.com/jquery-2.1.4.min.js" ></script>
+   <script type="text/javascript">
+            $(document).ready(function() {
+                 var socket = io.connect("/chat");
+            
+                 $("#bt_chat").click(function() {
+                     socket.emit("chat_message", $("#chat").val());
+                     $("#chat").val("");
+                     return false;
+                 });
+            
+                 socket.on("got_message", function(message) {
+                     var $p = $("<p />");
+                     $p.text(message);
+                     $("#content").append($p);
+                 });
+                 window.socket = socket;
+            });
+   </script>
+</head>
+<body>
+<h1>I Love to WebSocket, Part II</h1>
+<p id="content">
+</p>
+            
+<p>
+<input type="text" id="chat" placeholder="Chat here" />
+<input type="button" id="bt_chat" value="Send" />
+</p>
+</body>
+</html>
